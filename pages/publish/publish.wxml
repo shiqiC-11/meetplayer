@@ -1,0 +1,190 @@
+<!--pages/publish/publish.wxml-->
+<view class="page-container">
+  <!-- 步骤指示器 -->
+  <van-steps steps="{{ [{text: '选择球场'}, {text: '填写详情'}] }}" active="{{ currentStep }}" />
+
+  <!-- 步骤 0: 选择球场 -->
+  <view wx:if="{{ currentStep === 0 }}" class="step-content">
+    <view class="section-title">选择球场</view>
+
+    <!-- 搜索框 -->
+    <van-search
+      value="{{ searchKeyword }}"
+      placeholder="搜索球场名称或地址"
+      bind:change="onSearchInput"
+    />
+
+    <!-- 附近球场列表 -->
+    <view class="venues-list">
+      <view
+        wx:for="{{ displayVenues }}"
+        wx:key="_id"
+        class="venue-card"
+        bindtap="selectVenue"
+        data-venue="{{ item }}"
+      >
+        <view class="venue-name">{{ item.name }}</view>
+        <view class="venue-address">{{ item.address.detail || item.address.city }}</view>
+        <view wx:if="{{ item.distance }}" class="venue-distance">{{ item.formattedDistance }}</view>
+      </view>
+
+      <!-- 空状态 -->
+      <view wx:if="{{ displayVenues.length === 0 }}" class="empty-state">
+        <van-empty description="没有找到球场" />
+      </view>
+    </view>
+
+    <!-- 或使用地图选择 -->
+    <view class="or-divider">
+      <text>或</text>
+    </view>
+
+    <van-button
+      type="primary"
+      block
+      icon="location-o"
+      bind:click="chooseLocation"
+    >
+      使用地图选择位置
+    </van-button>
+  </view>
+
+  <!-- 步骤 1: 填写详情 -->
+  <view wx:if="{{ currentStep === 1 }}" class="step-content">
+    <view class="section-title">约球详情</view>
+
+    <!-- 已选球场 -->
+    <view class="selected-venue">
+      <van-icon name="location-o" />
+      <text>{{ selectedVenue.name }}</text>
+      <van-button size="small" plain bind:click="prevStep">更换</van-button>
+    </view>
+
+    <!-- 表单 -->
+    <van-cell-group>
+      <!-- 日期 -->
+      <van-cell title="日期" is-link>
+        <picker mode="date" value="{{ formData.date }}" bind:change="onDateChange">
+          <view class="picker-value">{{ formData.date || '请选择日期' }}</view>
+        </picker>
+      </van-cell>
+
+      <!-- 时间 -->
+      <van-cell title="时间" is-link>
+        <picker mode="time" value="{{ formData.time }}" bind:change="onTimeChange">
+          <view class="picker-value">{{ formData.time || '请选择时间' }}</view>
+        </picker>
+      </van-cell>
+
+      <!-- 时长 -->
+      <van-cell title="时长" is-link>
+        <picker mode="selector" range="{{ [60, 90, 120, 150, 180] }}" range-key="{{ '' }}" value="{{ formData.duration }}" bind:change="onDurationChange">
+          <view class="picker-value">{{ formData.duration / 60 }}小时</view>
+        </picker>
+      </van-cell>
+
+      <!-- 等级要求 -->
+      <van-cell title="等级要求" is-link bind:click="showLevelPicker">
+        <view class="picker-value">
+          {{ formData.requirement.simpleLevel.join('、') || '请选择等级' }}
+        </view>
+      </van-cell>
+
+      <!-- 性别要求 -->
+      <van-cell title="性别要求" is-link>
+        <picker mode="selector" range="{{ genders }}" range-key="label" value="{{ formData.requirement.gender }}" bind:change="onGenderChange">
+          <view class="picker-value">{{ genders[formData.requirement.gender].label }}</view>
+        </picker>
+      </van-cell>
+
+      <!-- 还需人数 -->
+      <van-cell title="还需人数" is-link>
+        <picker mode="selector" range="{{ [1, 2, 3, 4, 5, 6, 7, 8] }}" value="{{ formData.requirement.needCount - 1 }}" bind:change="onNeedCountChange">
+          <view class="picker-value">{{ formData.requirement.needCount }}人</view>
+        </picker>
+      </van-cell>
+    </van-cell-group>
+
+    <!-- 费用设置 -->
+    <view class="section-title">费用设置</view>
+    <van-cell-group>
+      <van-cell title="费用类型" is-link>
+        <picker mode="selector" range="{{ costTypes }}" range-key="label" bind:change="onCostTypeChange">
+          <view class="picker-value">{{ costTypeLabel }}</view>
+        </picker>
+      </van-cell>
+
+      <van-field
+        wx:if="{{ formData.cost.type !== 'free' }}"
+        label="总费用"
+        type="number"
+        value="{{ formData.cost.total }}"
+        placeholder="请输入总费用"
+        bind:input="onTotalCostInput"
+      />
+
+      <van-field
+        wx:if="{{ formData.cost.type === 'host' }}"
+        label="主办人承担"
+        type="number"
+        value="{{ formData.cost.hostPays }}"
+        placeholder="请输入主办人承担金额"
+        bind:input="onHostPaysInput"
+      />
+    </van-cell-group>
+
+    <!-- 描述 -->
+    <view class="section-title">补充说明（选填）</view>
+    <van-field
+      value="{{ formData.description }}"
+      type="textarea"
+      placeholder="可以介绍一下自己的球风、特点等"
+      autosize
+      maxlength="200"
+      show-word-limit
+      bind:input="onDescriptionInput"
+    />
+
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <van-button
+        type="primary"
+        block
+        round
+        loading="{{ submitting }}"
+        bind:click="onSubmit"
+      >
+        发布约球
+      </van-button>
+    </view>
+  </view>
+
+  <!-- 等级选择弹窗 -->
+  <van-popup show="{{ showLevelPopup }}" position="bottom" bind:close="closeLevelPicker">
+    <view class="level-picker-popup">
+      <view class="popup-header">
+        <text class="popup-title">选择等级要求</text>
+        <van-icon name="cross" size="20" bind:click="closeLevelPicker" />
+      </view>
+      <van-checkbox-group value="{{ formData.requirement.simpleLevel }}" bind:change="onLevelChange">
+        <van-cell-group>
+          <van-cell
+            wx:for="{{ levels }}"
+            wx:key="value"
+            title="{{ item.label }}"
+            clickable
+            data-name="{{ item.value }}"
+            bind:click="toggleLevel"
+          >
+            <van-checkbox slot="right-icon" name="{{ item.value }}" />
+          </van-cell>
+        </van-cell-group>
+      </van-checkbox-group>
+      <view class="popup-actions">
+        <van-button block type="primary" bind:click="confirmLevelPicker">
+          确定
+        </van-button>
+      </view>
+    </view>
+  </van-popup>
+</view>

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(for dir in publish slot-detail venue-detail venue-list my-slots)",
+      "Bash(do for ext in wxml js wxss json)",
+      "Bash(do touch \"pages/$dir/$dir.$ext\")",
+      "Bash(done)",
+      "mcp__cloudbase__downloadTemplate",
+      "mcp__cloudbase__writeNoSqlDatabaseStructure",
+      "mcp__cloudbase__createFunction",
+      "mcp__cloudbase__login",
+      "mcp__cloudbase__readNoSqlDatabaseStructure",
+      "mcp__cloudbase__writeNoSqlDatabaseContent",
+      "mcp__cloudbase__readNoSqlDatabaseContent",
+      "Bash(npm install)",
+      "mcp__cloudbase__updateFunctionCode",
+      "mcp__cloudbase__getFunctionList"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "cloudbase"
+  ]
+}

@@ -1,0 +1,134 @@
+/* pages/my-slots/my-slots.wxss */
+.page-container {
+  min-height: 100vh;
+  background-color: #f7f8fa;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 200rpx 0;
+}
+
+/* 空状态 */
+.empty-container {
+  padding: 200rpx 60rpx;
+  text-align: center;
+}
+
+.empty-action {
+  margin-top: 40rpx;
+}
+
+/* 约球列表 */
+.slots-list {
+  padding: 20rpx;
+}
+
+/* 约球卡片 */
+.slot-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(100, 101, 102, 0.08);
+  position: relative;
+}
+
+/* 状态标签 */
+.status-badge {
+  position: absolute;
+  top: 24rpx;
+  right: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* 球场信息 */
+.venue-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+  padding-right: 100rpx;
+}
+
+.venue-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #323233;
+}
+
+.distance {
+  font-size: 24rpx;
+  color: #969799;
+}
+
+/* 时间信息 */
+.datetime-info {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-bottom: 16rpx;
+  color: #646566;
+  font-size: 28rpx;
+}
+
+/* 需求信息 */
+.requirement-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+/* 主办人信息 */
+.host-info {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 16rpx;
+  background-color: #f7f8fa;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.host-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+}
+
+.host-name {
+  font-size: 28rpx;
+  color: #323233;
+  font-weight: 500;
+}
+
+/* 待审核标记 */
+.pending-badge {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx;
+  background-color: #fff7e6;
+  border-radius: 8rpx;
+  margin-bottom: 16rpx;
+  color: #ff976a;
+  font-size: 26rpx;
+}
+
+/* 操作按钮 */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16rpx;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #ebedf0;
+}

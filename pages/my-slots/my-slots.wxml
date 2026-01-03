@@ -1,0 +1,140 @@
+<!--pages/my-slots/my-slots.wxml-->
+<view class="page-container">
+  <van-tabs active="{{ activeTab }}" bind:change="onTabChange">
+    <!-- 我发布的 -->
+    <van-tab title="我发布的" name="created">
+      <view wx:if="{{ loading }}" class="loading-container">
+        <van-loading size="24px">加载中...</van-loading>
+      </view>
+
+      <view wx:elif="{{ createdSlots.length === 0 }}" class="empty-container">
+        <van-empty description="还没有发布约球" />
+        <view class="empty-action">
+          <van-button type="primary" round url="/pages/publish/publish">
+            发布约球
+          </van-button>
+        </view>
+      </view>
+
+      <view wx:else class="slots-list">
+        <view
+          wx:for="{{ createdSlots }}"
+          wx:key="_id"
+          class="slot-card"
+          bindtap="viewSlotDetail"
+          data-slot-id="{{ item._id }}"
+        >
+          <!-- 状态标签 -->
+          <view class="status-badge" style="background-color: {{ item.statusColor }}">
+            {{ item.statusText }}
+          </view>
+
+          <!-- 球场信息 -->
+          <view class="venue-info">
+            <text class="venue-name">{{ item.venue.name }}</text>
+            <text wx:if="{{ item.formattedDistance }}" class="distance">{{ item.formattedDistance }}</text>
+          </view>
+
+          <!-- 时间信息 -->
+          <view class="datetime-info">
+            <van-icon name="clock-o" />
+            <text>{{ item.formattedDatetime }} · {{ item.formattedDuration }}</text>
+          </view>
+
+          <!-- 需求信息 -->
+          <view class="requirement-info">
+            <van-tag plain type="primary">{{ item.requirementText.level }}</van-tag>
+            <van-tag plain>{{ item.requirementText.gender }}</van-tag>
+            <van-tag plain color="#07c160">还需 {{ item.needCount }} 人</van-tag>
+          </view>
+
+          <!-- 待审核申请提示 -->
+          <view wx:if="{{ item.pendingApplicationsCount > 0 }}" class="pending-badge">
+            <van-icon name="bell" />
+            <text>{{ item.pendingApplicationsCount }} 个待审核申请</text>
+          </view>
+
+          <!-- 操作按钮 -->
+          <view class="actions">
+            <van-button
+              wx:if="{{ item.status === 'open' || item.status === 'full' }}"
+              size="small"
+              type="default"
+              catchtap="cancelSlot"
+              data-slot-id="{{ item._id }}"
+            >
+              取消约球
+            </van-button>
+            <van-button
+              wx:if="{{ item.status === 'cancelled' || item.status === 'completed' || item.status === 'expired' }}"
+              size="small"
+              type="primary"
+              plain
+              catchtap="republishSlot"
+              data-slot="{{ item }}"
+            >
+              再次发布约球
+            </van-button>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+
+    <!-- 我参加的 -->
+    <van-tab title="我参加的" name="joined">
+      <view wx:if="{{ loading }}" class="loading-container">
+        <van-loading size="24px">加载中...</van-loading>
+      </view>
+
+      <view wx:elif="{{ joinedSlots.length === 0 }}" class="empty-container">
+        <van-empty description="还没有参加约球" />
+        <view class="empty-action">
+          <van-button type="primary" round url="/pages/index/index">
+            去约球
+          </van-button>
+        </view>
+      </view>
+
+      <view wx:else class="slots-list">
+        <view
+          wx:for="{{ joinedSlots }}"
+          wx:key="_id"
+          class="slot-card"
+          bindtap="viewSlotDetail"
+          data-slot-id="{{ item._id }}"
+        >
+          <!-- 状态标签 -->
+          <view class="status-badge" style="background-color: {{ item.statusColor }}">
+            {{ item.statusText }}
+          </view>
+
+          <!-- 球场信息 -->
+          <view class="venue-info">
+            <text class="venue-name">{{ item.venue.name }}</text>
+            <text wx:if="{{ item.formattedDistance }}" class="distance">{{ item.formattedDistance }}</text>
+          </view>
+
+          <!-- 时间信息 -->
+          <view class="datetime-info">
+            <van-icon name="clock-o" />
+            <text>{{ item.formattedDatetime }} · {{ item.formattedDuration }}</text>
+          </view>
+
+          <!-- 主办人信息 -->
+          <view wx:if="{{ item.host }}" class="host-info">
+            <image class="host-avatar" src="{{ item.host.avatarUrl }}" />
+            <text class="host-name">{{ item.host.nickName }}</text>
+            <van-tag plain size="mini">{{ item.host.level.simple }}</van-tag>
+          </view>
+
+          <!-- 需求信息 -->
+          <view class="requirement-info">
+            <van-tag plain type="primary">{{ item.requirementText.level }}</van-tag>
+            <van-tag plain>{{ item.requirementText.gender }}</van-tag>
+            <van-tag plain color="#07c160">{{ item.currentCount }}/{{ item.requirement.needCount }} 人</van-tag>
+          </view>
+        </view>
+      </view>
+    </van-tab>
+  </van-tabs>
+</view>

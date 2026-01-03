@@ -1,0 +1,181 @@
+/* pages/index/index.wxss */
+
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部搜索栏 */
+.top-bar {
+  background: #FFFFFF;
+  padding-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.filter-bar {
+  padding: 0 30rpx;
+}
+
+/* 地图容器 */
+.map-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  max-height: calc(100vh - 200rpx); /* 限制最大高度,避免超过纹理尺寸 */
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  min-height: 400rpx; /* 设置最小高度 */
+}
+
+.map-control-btn {
+  position: absolute;
+  bottom: 30rpx;
+  left: 30rpx;
+  width: 80rpx;
+  height: 80rpx;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+.control-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/* 球场信息卡片 */
+.venue-card-popup {
+  position: absolute;
+  bottom: 30rpx;
+  left: 30rpx;
+  right: 30rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+.venue-info {
+  margin-bottom: 20rpx;
+}
+
+.venue-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.venue-meta {
+  display: flex;
+  gap: 20rpx;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.slots-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid var(--border-color);
+  color: var(--primary-color);
+  font-size: 28rpx;
+}
+
+/* 列表容器 */
+.list-container {
+  flex: 1;
+  padding: 20rpx 30rpx;
+}
+
+.slot-item {
+  margin-bottom: 20rpx;
+}
+
+/* 浮动按钮 */
+.fab {
+  position: fixed;
+  bottom: 120rpx;
+  right: 30rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #52C41A 0%, #73D13D 100%);
+  box-shadow: 0 8rpx 24rpx rgba(82, 196, 26, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.fab-icon {
+  font-size: 80rpx;
+  color: #FFFFFF;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* 筛选弹窗 */
+.filter-popup {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+}
+
+.filter-header {
+  padding: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.filter-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.filter-content {
+  flex: 1;
+  padding: 30rpx;
+}
+
+.filter-section {
+  margin-bottom: 50rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20rpx;
+}
+
+.filter-footer {
+  padding: 30rpx;
+  border-top: 1rpx solid var(--border-color);
+}
+
+/* 空状态 */
+.empty-state {
+  padding: 100rpx 0;
+}
+
+/* 加载中 */
+.loading-container {
+  padding: 40rpx;
+  text-align: center;
+}

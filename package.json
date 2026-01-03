@@ -1,0 +1,25 @@
+{
+    "name": "meetplayer",
+    "version": "1.0.0",
+    "description": "meetplayer 约球小程序 - 网球约球社交平台",
+    "main": "app.js",
+    "scripts": {
+        "dev": "echo 'Please use WeChat DevTools to run the project'",
+        "test": "jest"
+    },
+    "keywords": [
+        "wechat",
+        "miniprogram",
+        "tennis",
+        "sports"
+    ],
+    "author": "RollingFoward",
+    "license": "MIT",
+    "dependencies": {
+        "@vant/weapp": "^1.11.6"
+    },
+    "devDependencies": {
+        "miniprogram-api-typings": "^3.12.2",
+        "miniprogram-ci": "^1.8.14"
+    }
+}

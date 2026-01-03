@@ -1,0 +1,94 @@
+/* pages/my/my.wxss */
+
+.page-container {
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+
+/* 用户信息卡片 */
+.user-card {
+  background: linear-gradient(135deg, #52C41A 0%, #73D13D 100%);
+  padding: 60rpx 30rpx 40rpx;
+  margin-bottom: 20rpx;
+}
+
+.user-info {
+  align-items: flex-start;
+}
+
+.user-detail {
+  color: #FFFFFF;
+}
+
+.nickname {
+  font-size: 40rpx;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.level-info {
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+}
+
+.level-text {
+  font-weight: 500;
+}
+
+.ntrp-text {
+  opacity: 0.9;
+}
+
+.verified-badge {
+  font-size: 24rpx;
+}
+
+.stats {
+  display: flex;
+  gap: 30rpx;
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+.stat-item {
+  white-space: nowrap;
+}
+
+/* 登录提示 */
+.login-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+}
+
+.login-text {
+  margin-top: 20rpx;
+  font-size: 32rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+/* 功能菜单 */
+.menu-section {
+  margin-bottom: 20rpx;
+}
+
+/* 退出登录 */
+.logout-section {
+  margin: 40rpx 30rpx;
+}
+
+/* 版本信息 */
+.version-info {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.version-text {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}

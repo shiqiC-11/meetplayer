@@ -1,0 +1,39 @@
+# Node modules
+node_modules/
+miniprogram_npm/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+.tea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# WeChat DevTools
+.wechat_devtools/
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+.cache/
+
+#

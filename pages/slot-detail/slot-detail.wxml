@@ -1,0 +1,6 @@
+<!--pages/slot-detail/slot-detail.wxml-->
+<view class="page-container">
+  <view class="placeholder-content">
+    <van-empty description="Slot详情功能开发中..." />
+  </view>
+</view>

@@ -1,0 +1,74 @@
+<!--components/slot-card/slot-card.wxml-->
+<view class="slot-card">
+  <!-- 用户信息 -->
+  <view class="user-info flex-start">
+    <image class="avatar" src="{{ slotData.host.avatarUrl }}" mode="aspectFill" />
+    <view class="user-detail flex-1 ml-20">
+      <view class="flex-between">
+        <text class="nickname">{{ slotData.host.nickName }}</text>
+        <text class="rating">⭐ {{ slotData.host.rating || '暂无评分' }}</text>
+      </view>
+      <text class="level text-small text-secondary">
+        {{ slotData.host.level.simple }}
+        <text wx:if="{{ slotData.host.level.ntrp }}"> (NTRP {{ slotData.host.level.ntrp }})</text>
+        <text wx:if="{{ slotData.host.level.verified }}"> ✅</text>
+      </text>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="basic-info mt-20">
+    <view class="info-row">
+      <text class="info-icon">🎾</text>
+      <text class="info-text">{{ slotData.sport }} | {{ slotData.dateTimeText }}</text>
+    </view>
+
+    <view class="info-row mt-10">
+      <text class="info-icon">📍</text>
+      <text class="info-text">{{ slotData.venue.name }} ({{ slotData.distance }})</text>
+    </view>
+  </view>
+
+  <!-- 费用信息（如果收费）-->
+  <view wx:if="{{ slotData.paymentInfo && slotData.paymentInfo.type !== 'free' }}" class="payment-info mt-20">
+    <view class="payment-header">
+      <text class="payment-title">💰 费用信息</text>
+    </view>
+    <view class="payment-detail">
+      <text class="payment-text">每人应付：</text>
+      <text class="payment-amount">¥{{ slotData.paymentInfo.perPersonAmount }}</text>
+    </view>
+    <view wx:if="{{ slotData.paymentInfo.paid }}" class="payment-progress">
+      <text class="progress-text">付款进度：{{ slotData.paymentInfo.paidCount }}/{{ slotData.paymentInfo.totalCount }}</text>
+    </view>
+  </view>
+
+  <!-- 要求信息 -->
+  <view class="requirement-info mt-20">
+    <view class="requirement-row">
+      <text class="requirement-label">💪 等级要求：</text>
+      <text class="requirement-value">{{ slotData.requirementText.level }}</text>
+    </view>
+
+    <view class="requirement-row mt-10">
+      <text class="requirement-label">👥 性别要求：</text>
+      <text class="requirement-value">{{ slotData.requirementText.gender }}</text>
+    </view>
+
+    <view class="requirement-row mt-10">
+      <text class="requirement-label">还缺：</text>
+      <text class="requirement-value text-primary-color">{{ slotData.needCount }} 人</text>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view wx:if="{{ slotData.note }}" class="note mt-20">
+    <text class="note-icon">💬</text>
+    <text class="note-text">"{{ slotData.note }}"</text>
+  </view>
+
+  <!-- 状态标签 -->
+  <view class="status-tag {{ slotData.status === 'open' ? 'status-open' : 'status-closed' }}">
+    {{ slotData.statusText }}
+  </view>
+</view>

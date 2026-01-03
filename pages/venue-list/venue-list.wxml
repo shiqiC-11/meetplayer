@@ -1,0 +1,6 @@
+<!--pages/venue-list/venue-list.wxml-->
+<view class="page-container">
+  <view class="placeholder-content">
+    <van-empty description="球场列表功能开发中..." />
+  </view>
+</view>

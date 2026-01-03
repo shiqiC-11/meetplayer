@@ -1,0 +1,53 @@
+<!--pages/login/login.wxml-->
+<view class="login-container">
+  <view class="login-content">
+    <!-- Logo 和标题 -->
+    <view class="login-header">
+      <image class="logo" src="/assets/images/logo.jpg" mode="aspectFit" />
+      <text class="app-name">MeetPlayer</text>
+      <text class="app-slogan">找球友，约网球</text>
+    </view>
+
+    <!-- 功能介绍 -->
+    <view class="features">
+      <view class="feature-item">
+        <text class="feature-icon">🎾</text>
+        <text class="feature-text">轻松发布约球</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">📍</text>
+        <text class="feature-text">发现附近球局</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">👥</text>
+        <text class="feature-text">结识志同道合的球友</text>
+      </view>
+    </view>
+
+    <!-- 登录按钮 -->
+    <view class="login-actions">
+      <van-button
+        type="primary"
+        block
+        round
+        bind:tap="onLogin"
+        loading="{{ loading }}"
+        disabled="{{ loading }}"
+      >
+        {{ loading ? '登录中...' : '微信一键登录' }}
+      </van-button>
+
+      <view class="login-tip">
+        <text class="tip-text">登录即表示同意</text>
+        <text class="link-text" bind:tap="goToUserAgreement">《用户协议》</text>
+        <text class="tip-text">和</text>
+        <text class="link-text" bind:tap="goToPrivacyPolicy">《隐私政策》</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部装饰 -->
+  <view class="login-footer">
+    <text class="footer-text">找到你的网球搭档</text>
+  </view>
+</view>

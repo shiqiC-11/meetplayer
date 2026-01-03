@@ -1,0 +1,166 @@
+<!--index.wxml-->
+<view class="page-container">
+  <!-- 顶部搜索栏 -->
+  <view class="top-bar">
+    <van-search
+      value="{{ searchKeyword }}"
+      placeholder="搜索球场或位置"
+      bind:change="onSearchChange"
+      bind:search="onSearch"
+    />
+
+    <view class="filter-bar flex-between">
+      <van-button size="small" icon="filter-o" bind:tap="showFilterPopup">
+        筛选
+      </van-button>
+
+      <van-button
+        size="small"
+        icon="{{ viewMode === 'map' ? 'bars' : 'location-o' }}"
+        bind:tap="toggleViewMode"
+      >
+        {{ viewMode === 'map' ? '列表' : '地图' }}
+      </van-button>
+    </view>
+  </view>
+
+  <!-- 地图视图 -->
+  <view wx:if="{{ viewMode === 'map' }}" class="map-container">
+    <map
+      id="map"
+      latitude="{{ mapCenter.latitude }}"
+      longitude="{{ mapCenter.longitude }}"
+      scale="{{ mapScale }}"
+      markers="{{ markers }}"
+      bindmarkertap="onMarkerTap"
+      enable-3D
+      enable-overlooking
+      enable-zoom
+      enable-scroll
+      enable-rotate
+    >
+      <!-- 定位按钮 -->
+      <cover-view class="map-control-btn" bindtap="relocate">
+        <cover-image src="/assets/icons/location.jpg" class="control-icon" />
+      </cover-view>
+    </map>
+
+    <!-- 球场信息卡片（点击标记后显示） -->
+    <view wx:if="{{ selectedVenue }}" class="venue-card-popup" bindtap="goToVenueDetail">
+      <view class="venue-info">
+        <text class="venue-name">{{ selectedVenue.name }}</text>
+        <view class="venue-meta">
+          <text class="rating">⭐ {{ selectedVenue.rating.overall || '暂无评分' }}</text>
+          <text class="distance">📍 {{ selectedVenue.distance }}</text>
+        </view>
+      </view>
+      <view class="slots-preview">
+        <text class="slots-count">开放约球 {{ selectedVenue.openSlotsCount || 0 }} 场</text>
+        <van-icon name="arrow" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 列表视图 -->
+  <scroll-view
+    wx:else
+    class="list-container"
+    scroll-y
+    bindscrolltolower="loadMore"
+    lower-threshold="50"
+  >
+    <view wx:if="{{ slots.length === 0 }}" class="empty-state">
+      <van-empty description="暂无约球局" />
+    </view>
+
+    <view wx:else>
+      <view
+        wx:for="{{ slots }}"
+        wx:key="_id"
+        class="slot-item"
+        bindtap="goToSlotDetail"
+        data-id="{{ item._id }}"
+      >
+        <slot-card slot-data="{{ item }}" />
+      </view>
+    </view>
+
+    <view wx:if="{{ loading }}" class="loading-container">
+      <van-loading size="24px">加载中...</van-loading>
+    </view>
+  </scroll-view>
+
+  <!-- 发布约球浮动按钮 -->
+  <view class="fab" bindtap="goToPublish">
+    <text class="fab-icon">+</text>
+  </view>
+
+  <!-- 筛选弹窗 -->
+  <van-popup
+    show="{{ showFilter }}"
+    position="right"
+    custom-style="width: 75%; height: 100%;"
+    bind:close="closeFilterPopup"
+  >
+    <view class="filter-popup">
+      <view class="filter-header">
+        <text class="filter-title">筛选条件</text>
+        <van-button size="small" type="default" bind:tap="resetFilters">
+          重置
+        </van-button>
+      </view>
+
+      <scroll-view class="filter-content" scroll-y>
+        <!-- 时间筛选 -->
+        <view class="filter-section">
+          <text class="section-title">时间</text>
+          <van-radio-group value="{{ filters.time }}" bind:change="onTimeChange">
+            <van-radio name="today">今天</van-radio>
+            <van-radio name="tomorrow">明天</van-radio>
+            <van-radio name="thisWeek">本周</van-radio>
+            <van-radio name="all">全部</van-radio>
+          </van-radio-group>
+        </view>
+
+        <!-- 距离筛选 -->
+        <view class="filter-section">
+          <text class="section-title">距离</text>
+          <van-radio-group value="{{ filters.distance }}" bind:change="onDistanceChange">
+            <van-radio name="1000">1km</van-radio>
+            <van-radio name="3000">3km</van-radio>
+            <van-radio name="5000">5km</van-radio>
+            <van-radio name="10000">10km</van-radio>
+          </van-radio-group>
+        </view>
+
+        <!-- 等级筛选 -->
+        <view class="filter-section">
+          <text class="section-title">等级要求</text>
+          <van-checkbox-group value="{{ filters.levels }}" bind:change="onLevelsChange">
+            <van-checkbox name="新手">新手</van-checkbox>
+            <van-checkbox name="初级">初级</van-checkbox>
+            <van-checkbox name="中级">中级</van-checkbox>
+            <van-checkbox name="高级">高级</van-checkbox>
+            <van-checkbox name="专业">专业</van-checkbox>
+          </van-checkbox-group>
+        </view>
+
+        <!-- 性别筛选 -->
+        <view class="filter-section">
+          <text class="section-title">性别要求</text>
+          <van-radio-group value="{{ filters.gender }}" bind:change="onGenderChange">
+            <van-radio name="0">不限</van-radio>
+            <van-radio name="1">仅男</van-radio>
+            <van-radio name="2">仅女</van-radio>
+          </van-radio-group>
+        </view>
+      </scroll-view>
+
+      <view class="filter-footer">
+        <van-button type="primary" block bind:tap="applyFilters">
+          应用筛选
+        </van-button>
+      </view>
+    </view>
+  </van-popup>
+</view>

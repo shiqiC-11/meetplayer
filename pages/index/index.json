@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "附近约球",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "slot-card": "/components/slot-card/slot-card"
+  }
+}

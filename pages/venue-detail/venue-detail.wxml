@@ -1,0 +1,215 @@
+<!--pages/venue-detail/venue-detail.wxml-->
+<view class="page-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{ loading }}" class="loading-container">
+    <van-loading size="32px">加载中...</van-loading>
+  </view>
+
+  <!-- 球场详情 -->
+  <view wx:else class="venue-detail">
+    <!-- 照片轮播 -->
+    <view class="photos-section" wx:if="{{ venue.photos && venue.photos.length > 0 }}">
+      <swiper
+        class="photos-swiper"
+        indicator-dots
+        indicator-color="rgba(255, 255, 255, 0.5)"
+        indicator-active-color="#fff"
+        bindchange="onPhotoChange"
+      >
+        <swiper-item wx:for="{{ venue.photos }}" wx:key="index">
+          <image
+            class="photo"
+            src="{{ item }}"
+            mode="aspectFill"
+            bindtap="previewPhoto"
+            data-url="{{ item }}"
+          />
+        </swiper-item>
+      </swiper>
+      <view class="photo-indicator">
+        {{ currentPhotoIndex + 1 }} / {{ venue.photos.length }}
+      </view>
+    </view>
+
+    <!-- 基础信息 -->
+    <view class="info-section">
+      <view class="venue-header">
+        <text class="venue-name">{{ venue.name }}</text>
+        <view class="status-badge" wx:if="{{ venue.status === 'verified' }}">
+          <van-icon name="passed" color="#07c160" />
+          <text>已认证</text>
+        </view>
+      </view>
+
+      <!-- 评分 -->
+      <view class="rating-row" wx:if="{{ venue.rating && venue.rating.count > 0 }}">
+        <van-rate
+          value="{{ venue.rating.overall }}"
+          size="16"
+          color="#ff976a"
+          void-color="#eee"
+          readonly
+        />
+        <text class="rating-text">{{ venue.rating.overall }}分</text>
+        <text class="rating-count">({{ venue.rating.count }}条评价)</text>
+      </view>
+
+      <!-- 地址 -->
+      <view class="address-row" bindtap="openLocation">
+        <van-icon name="location-o" color="#576b95" />
+        <text class="address-text">{{ venue.formattedAddress }}</text>
+        <van-icon name="arrow" />
+      </view>
+    </view>
+
+    <!-- 球场信息 -->
+    <view class="info-section">
+      <view class="section-title">球场信息</view>
+
+      <van-cell-group>
+        <van-cell
+          title="球场数量"
+          value="{{ venue.courtsText }}"
+          icon="shop-o"
+        />
+        <van-cell
+          wx:if="{{ venue.courts.lighting }}"
+          title="照明"
+          value="有"
+          icon="bulb-o"
+        />
+        <van-cell
+          wx:if="{{ venue.pricing }}"
+          title="价格"
+          value="{{ venue.pricing.range }}"
+          icon="gold-coin-o"
+        />
+        <van-cell
+          wx:if="{{ venue.contact && venue.contact.phone }}"
+          title="联系电话"
+          value="{{ venue.contact.phone }}"
+          icon="phone-o"
+          is-link
+          bindtap="makePhoneCall"
+        />
+      </van-cell-group>
+    </view>
+
+    <!-- 设施 -->
+    <view class="info-section" wx:if="{{ venue.facilities && venue.facilities.length > 0 }}">
+      <view class="section-title">球场设施</view>
+      <view class="facilities-grid">
+        <view
+          wx:for="{{ venue.facilities }}"
+          wx:key="index"
+          class="facility-item"
+        >
+          <van-icon name="passed" color="#07c160" />
+          <text>{{ item }}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 即将进行的约球 -->
+    <view class="info-section" wx:if="{{ venue.upcomingSlots && venue.upcomingSlots.length > 0 }}">
+      <view class="section-title">
+        <text>即将进行的约球</text>
+        <text class="count-badge">{{ venue.upcomingSlotsCount }}</text>
+      </view>
+
+      <view class="slots-list">
+        <view
+          wx:for="{{ venue.upcomingSlots }}"
+          wx:key="_id"
+          class="slot-card"
+          bindtap="viewSlotDetail"
+          data-slot-id="{{ item._id }}"
+        >
+          <!-- 时间信息 -->
+          <view class="datetime-info">
+            <van-icon name="clock-o" />
+            <text>{{ item.formattedDatetime }} · {{ item.formattedDuration }}</text>
+          </view>
+
+          <!-- 需求信息 -->
+          <view class="requirement-info">
+            <van-tag plain type="primary">{{ item.requirementText.level }}</van-tag>
+            <van-tag plain>{{ item.requirementText.gender }}</van-tag>
+            <van-tag plain color="#07c160">还需 {{ item.needCount }} 人</van-tag>
+          </view>
+
+          <!-- 费用 -->
+          <view class="cost-info" wx:if="{{ item.cost.type !== 'free' }}">
+            <text class="cost-label">费用：</text>
+            <text class="cost-value">
+              {{ item.cost.type === 'aa' ? 'AA制' : '部分承担' }}
+              {{ item.cost.perPerson ? '¥' + item.cost.perPerson + '/人' : '' }}
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 评价列表 -->
+    <view class="info-section" wx:if="{{ venue.reviews && venue.reviews.length > 0 }}">
+      <view class="section-title">用户评价</view>
+
+      <view class="reviews-list">
+        <view
+          wx:for="{{ venue.reviews }}"
+          wx:key="_id"
+          class="review-item"
+        >
+          <view class="review-header">
+            <image class="reviewer-avatar" src="{{ item.reviewer.avatarUrl }}" />
+            <view class="reviewer-info">
+              <text class="reviewer-name">{{ item.reviewer.nickName }}</text>
+              <van-rate
+                value="{{ item.rating }}"
+                size="12"
+                color="#ff976a"
+                void-color="#eee"
+                readonly
+              />
+            </view>
+          </view>
+          <view class="review-content">{{ item.comment }}</view>
+          <view class="review-time">{{ item.createdAt }}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 统计信息 -->
+    <view class="info-section">
+      <view class="stats-row">
+        <view class="stat-item">
+          <text class="stat-value">{{ venue.totalSlots }}</text>
+          <text class="stat-label">历史约球</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{ venue.upcomingSlotsCount }}</text>
+          <text class="stat-label">即将进行</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{ venue.reviewsCount || 0 }}</text>
+          <text class="stat-label">用户评价</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar" wx:if="{{ !loading && venue }}">
+    <view class="bottom-button" bindtap="openLocation">
+      <van-icon name="location-o" size="20" />
+      <text>导航</text>
+    </view>
+    <view class="bottom-button" bindtap="makePhoneCall" wx:if="{{ venue.contact && venue.contact.phone }}">
+      <van-icon name="phone-o" size="20" />
+      <text>电话</text>
+    </view>
+    <view class="bottom-button primary" url="/pages/publish/publish?venueId={{ venue._id }}">
+      <text>在此发布约球</text>
+    </view>
+  </view>
+</view>

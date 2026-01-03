@@ -1,0 +1,279 @@
+/* app.wxss - 全局样式 */
+
+/* 禁用 Vant Weapp 的外部 iconfont CDN 依赖 */
+/* 解决 Failed to load font from alicdn.com 错误 */
+@font-face {
+  font-family: 'vant-icon';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/static/fonts/font_2553510_kfwma2yq1rs.woff2'); /* 本地路径 */
+}
+
+/* 全局颜色变量 */
+page {
+  --primary-color: #52C41A;
+  --secondary-color: #F5F5F5;
+  --danger-color: #FF4D4F;
+  --text-primary: #262626;
+  --text-secondary: #8C8C8C;
+  --border-color: #E8E8E8;
+  --bg-color: #F5F5F5;
+  background-color: var(--bg-color);
+  font-size: 28rpx;
+  color: var(--text-primary);
+}
+
+/* 通用容器 */
+.container {
+  padding: 30rpx;
+}
+
+.page-container {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+/* 卡片样式 */
+.card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20rpx;
+}
+
+/* 按钮样式 */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: var(--primary-color);
+  border: 2rpx solid var(--primary-color);
+  border-radius: 12rpx;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+/* 文字样式 */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-primary-color {
+  color: var(--primary-color);
+}
+
+.text-danger {
+  color: var(--danger-color);
+}
+
+.text-bold {
+  font-weight: 600;
+}
+
+.text-large {
+  font-size: 36rpx;
+}
+
+.text-small {
+  font-size: 24rpx;
+}
+
+/* Flex 布局 */
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-around {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.flex-start {
+  display: flex;
+  align-items: flex-start;
+}
+
+.flex-end {
+  display: flex;
+  align-items: flex-end;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* 间距 */
+.mt-10 { margin-top: 10rpx; }
+.mt-20 { margin-top: 20rpx; }
+.mt-30 { margin-top: 30rpx; }
+.mb-10 { margin-bottom: 10rpx; }
+.mb-20 { margin-bottom: 20rpx; }
+.mb-30 { margin-bottom: 30rpx; }
+.ml-10 { margin-left: 10rpx; }
+.ml-20 { margin-left: 20rpx; }
+.mr-10 { margin-right: 10rpx; }
+.mr-20 { margin-right: 20rpx; }
+
+.pt-10 { padding-top: 10rpx; }
+.pt-20 { padding-top: 20rpx; }
+.pt-30 { padding-top: 30rpx; }
+.pb-10 { padding-bottom: 10rpx; }
+.pb-20 { padding-bottom: 20rpx; }
+.pb-30 { padding-bottom: 30rpx; }
+.pl-10 { padding-left: 10rpx; }
+.pl-20 { padding-left: 20rpx; }
+.pr-10 { padding-right: 10rpx; }
+.pr-20 { padding-right: 20rpx; }
+
+/* 头像 */
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-small {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-large {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* 标签 */
+.tag {
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  margin-right: 10rpx;
+}
+
+.tag-primary {
+  background-color: rgba(82, 196, 26, 0.1);
+  color: var(--primary-color);
+}
+
+.tag-secondary {
+  background-color: var(--secondary-color);
+  color: var(--text-secondary);
+}
+
+.tag-danger {
+  background-color: rgba(255, 77, 79, 0.1);
+  color: var(--danger-color);
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background-color: var(--border-color);
+  margin: 30rpx 0;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 30rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  color: var(--text-secondary);
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx;
+}
+
+/* 浮动按钮 */
+.fab {
+  position: fixed;
+  bottom: 120rpx;
+  right: 30rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  box-shadow: 0 8rpx 24rpx rgba(82, 196, 26, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.fab-icon {
+  font-size: 60rpx;
+  color: #FFFFFF;
+}
+
+/* 安全区域 */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}

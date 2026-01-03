@@ -1,0 +1,107 @@
+<!--pages/my/my.wxml-->
+<view class="page-container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view wx:if="{{ userInfo }}" class="user-info flex-start">
+      <image class="avatar-large" src="{{ userInfo.avatarUrl }}" mode="aspectFill" />
+      <view class="user-detail flex-1 ml-20">
+        <text class="nickname">{{ userInfo.nickName }}</text>
+        <view class="level-info">
+          <text class="level-text">{{ userInfo.level.simple }}</text>
+          <text wx:if="{{ userInfo.level.ntrp }}" class="ntrp-text"> (NTRP {{ userInfo.level.ntrp }})</text>
+          <text wx:if="{{ userInfo.level.verified }}" class="verified-badge"> ✅</text>
+        </view>
+        <view class="stats">
+          <text class="stat-item">⭐ {{ userInfo.rating || '暂无评分' }}</text>
+          <text class="stat-item">📊 {{ userInfo.totalGames || 0 }} 场</text>
+          <text class="stat-item">💎 {{ userInfo.creditScore || 100 }} 信用分</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:else class="login-prompt" bindtap="goToLogin">
+      <image class="avatar-large" src="/assets/images/default-avatar.jpg" />
+      <text class="login-text">点击登录</text>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <van-cell-group>
+      <van-cell
+        title="我的约球"
+        icon="orders-o"
+        is-link
+        url="/pages/my-slots/my-slots"
+      />
+      <van-cell
+        title="收藏的球场"
+        icon="star-o"
+        is-link
+        url="/pages/favorite-venues/favorite-venues"
+      />
+      <van-cell
+        title="我的评价"
+        icon="comment-o"
+        is-link
+        url="/pages/my-reviews/my-reviews"
+      />
+    </van-cell-group>
+  </view>
+
+  <view class="menu-section">
+    <van-cell-group>
+      <van-cell
+        title="编辑资料"
+        icon="edit"
+        is-link
+        url="/pages/edit-profile/edit-profile"
+      />
+      <van-cell
+        title="设置"
+        icon="setting-o"
+        is-link
+        url="/pages/settings/settings"
+      />
+    </van-cell-group>
+  </view>
+
+  <view class="menu-section">
+    <van-cell-group>
+      <van-cell
+        title="用户协议"
+        icon="description"
+        is-link
+        url="/pages/agreement/agreement?type=user"
+      />
+      <van-cell
+        title="隐私政策"
+        icon="shield-o"
+        is-link
+        url="/pages/agreement/agreement?type=privacy"
+      />
+      <van-cell
+        title="关于我们"
+        icon="info-o"
+        is-link
+        url="/pages/about/about"
+      />
+    </van-cell-group>
+  </view>
+
+  <!-- 退出登录按钮 -->
+  <view wx:if="{{ userInfo }}" class="logout-section">
+    <van-button
+      block
+      type="default"
+      bind:tap="onLogout"
+    >
+      退出登录
+    </van-button>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text class="version-text">MeetPlayer v1.0.0</text>
+  </view>
+</view>
